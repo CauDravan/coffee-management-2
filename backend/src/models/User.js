@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema({
-  fullName: String,
-  phone: String,
-  detail: String,
-  city: String
+  fullName: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  detail: {
+    type: String,
+    required: true
+  },
+  city: {
+    type: String,
+    required: true
+  }
 });
 
 const userSchema = new mongoose.Schema(
@@ -17,7 +29,9 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      lowercase: true,
+      trim: true
     },
 
     password: {
