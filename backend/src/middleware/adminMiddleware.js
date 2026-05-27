@@ -1,10 +1,12 @@
 export const admin = (req, res, next) => {
-  if (req.user.role !== "admin") {
+
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+
     return res.status(403).json({
       success: false,
-      message: "Admin only"
+      message: "Admin access only"
     });
   }
-
-  next();
 };
