@@ -7,23 +7,23 @@ import { admin } from '../middleware/adminMiddleware.js';
 const router = express.Router();
 
 /// Product Management
-router.post('/products', adminController.createProduct);
+router.post('/products', protect, admin, adminController.createProduct);
 
-router.put('/products/:id', adminController.updateProduct);
+router.put('/products/:id', protect, admin, adminController.updateProduct);
 
-router.delete('/products/:id', adminController.deleteProduct);
+router.delete('/products/:id', protect, admin, adminController.deleteProduct);
 
 /// Category Management
-router.post('/categories', adminController.createCategory);
+router.post('/categories', protect, admin, adminController.createCategory);
 
 /// Order Management
-router.get('/orders', adminController.getAllOrders);
+router.get('/orders', protect, admin, adminController.getAllOrders);
 
-router.put('/orders/:id/status', adminController.updateOrderStatus);
+router.put('/orders/:id/status', protect, admin, adminController.updateOrderStatus);
 
 /// User Management
 router.get('/users', protect, admin, adminController.getAllUsers);
 
-router.delete('/users/:id', adminController.deleteUser);
+router.delete('/users/:id', protect, admin, adminController.deleteUser);
 
 export default router;
