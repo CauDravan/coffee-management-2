@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 
 export const getAllProducts = async () => {
   return await Product.find({
