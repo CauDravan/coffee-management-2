@@ -6,10 +6,19 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 function App() {
   return (
     <BrowserRouter>
-      <Route
-        path="/products/:id"
-        element={<ProductDetailPage />}
-      />
+      <Routes>
+
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
+
+        <Route
+          path="/products/:id"
+          element={<ProductDetailPage />}
+        />
+
+      </Routes>
     </BrowserRouter>
   );
 }
