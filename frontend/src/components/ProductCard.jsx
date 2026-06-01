@@ -2,7 +2,10 @@ const ProductCard = ({ product }) => {
   return (
     <div className="border rounded-lg p-4 shadow">
       <img
-        src={product.image}
+        src={
+          product.image ||
+          "https://images.unsplash.com/photo-1517701604599-bb29b565090c"
+        }
         alt={product.name}
         className="w-full h-48 object-cover rounded"
       />
@@ -12,7 +15,7 @@ const ProductCard = ({ product }) => {
       </h2>
 
       <p className="text-gray-500">
-        {product.price} VND
+        {product.price.toLocaleString()} đ
       </p>
 
       <button className="mt-3 bg-amber-900 text-white px-4 py-2 rounded">
