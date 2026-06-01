@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ProductCard = ({ product }) => {
   return (
     <div className="border rounded-lg p-4 shadow">
@@ -17,10 +19,13 @@ const ProductCard = ({ product }) => {
       <p className="text-gray-500">
         {product.price.toLocaleString()} đ
       </p>
-
-      <button className="mt-3 bg-amber-900 text-white px-4 py-2 rounded">
-        Add to Cart
-      </button>
+      
+      <Link
+        to={`/products/${product._id}`}
+        className="mt-3 inline-block bg-amber-900 text-white px-4 py-2 rounded"
+      >
+        View Detail
+      </Link>
     </div>
   );
 };
