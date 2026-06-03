@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
 
-import {
-  getProductById
-} from "../services/productService";
+import { getProductById } from "../services/productService";
+import { addToCart } from "../services/cartService";
 
 const ProductDetailPage = () => {
 
@@ -84,6 +83,7 @@ const ProductDetailPage = () => {
         </p>
 
         <button
+          onClick={handleAddToCart}
           className="mt-5 bg-amber-900 text-white px-5 py-3 rounded"
         >
           Add To Cart
@@ -93,6 +93,34 @@ const ProductDetailPage = () => {
 
     </div>
   );
+};
+
+const handleAddToCart = async () => {
+
+  try {
+
+    await addToCart(
+      product._id,
+      1
+    );
+
+    alert(
+      "Added to cart successfully"
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+    console.log(error.response);
+
+    alert(
+      error.response?.data?.message ||
+      error.message ||
+      "Add to cart failed"
+    );
+
+  }
 };
 
 export default ProductDetailPage;

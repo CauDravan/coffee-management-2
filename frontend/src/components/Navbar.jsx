@@ -11,7 +11,9 @@ const Navbar = () => {
         <div className="flex gap-4">
           <button>Home</button>
           <button>Products</button>
-          <button>Cart</button>
+          <Link to="/cart">
+            <button>Cart</button>
+          </Link>
           <Link to="/login">
             <button>Login</button>
           </Link>
