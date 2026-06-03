@@ -10,7 +10,12 @@ const Navbar = () => {
           <button>Home</button>
           <button>Products</button>
           <button>Cart</button>
-          <button>Login</button>
+          <Link
+            to="/login"
+            className="bg-white text-amber-900 px-3 py-1 rounded"
+          >
+            Login
+          </Link>
         </div>
       </div>
     </nav>
