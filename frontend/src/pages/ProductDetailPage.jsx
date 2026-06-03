@@ -16,6 +16,34 @@ const ProductDetailPage = () => {
   const [loading, setLoading] =
     useState(true);
 
+  const handleAddToCart = async () => {
+
+    try {
+
+      await addToCart(
+        product._id,
+        1
+      );
+
+      alert(
+        "Added to cart successfully"
+      );
+
+    } catch (error) {
+
+      console.log(error);
+
+      console.log(error.response);
+
+      alert(
+        error.response?.data?.message ||
+        error.message ||
+        "Add to cart failed"
+      );
+
+    }
+  };
+
   useEffect(() => {
 
     const fetchProduct = async () => {
@@ -93,34 +121,6 @@ const ProductDetailPage = () => {
 
     </div>
   );
-};
-
-const handleAddToCart = async () => {
-
-  try {
-
-    await addToCart(
-      product._id,
-      1
-    );
-
-    alert(
-      "Added to cart successfully"
-    );
-
-  } catch (error) {
-
-    console.log(error);
-
-    console.log(error.response);
-
-    alert(
-      error.response?.data?.message ||
-      error.message ||
-      "Add to cart failed"
-    );
-
-  }
 };
 
 export default ProductDetailPage;
