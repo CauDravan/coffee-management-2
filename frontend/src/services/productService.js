@@ -14,3 +14,25 @@ export const getProductById = async (id) => {
 
   return response.data.product;
 };
+
+export const searchProducts =
+  async (keyword) => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/search?keyword=${keyword}`
+      );
+
+    return response.data.products;
+  };
+
+export const getProductsByCategory =
+  async (categoryId) => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/category/${categoryId}`
+      );
+
+    return response.data.products;
+  };

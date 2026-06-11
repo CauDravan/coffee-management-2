@@ -4,12 +4,25 @@ import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 
 import {
-  getAllProducts
+  getAllProducts,
+  searchProducts,
+  getProductsByCategory
 } from "../services/productService";
+
+import {
+  getAllCategories
+} from "../services/categoryService";
 
 const HomePage = () => {
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] =
+    useState([]);
+
+  const [categories, setCategories] =
+    useState([]);
+
+  const [keyword, setKeyword] =
+    useState("");
 
   const [loading, setLoading] =
     useState(true);
@@ -19,31 +32,96 @@ const HomePage = () => {
 
   useEffect(() => {
 
-    const fetchProducts = async () => {
+    const loadData = async () => {
 
       try {
 
-        const data =
-          await getAllProducts();
+        const [
+          productsData,
+          categoriesData
+        ] = await Promise.all([
+          getAllProducts(),
+          getAllCategories()
+        ]);
 
-        setProducts(data);
+        setProducts(productsData);
+        setCategories(categoriesData);
 
       } catch (error) {
 
+        console.error(error);
+
         setError(
-          "Failed to load products"
+          "Failed to load data"
         );
 
       } finally {
 
         setLoading(false);
-
       }
     };
 
-    fetchProducts();
+    loadData();
 
   }, []);
+
+  const handleSearch =
+    async () => {
+
+      try {
+
+        if (!keyword.trim()) {
+
+          const products =
+            await getAllProducts();
+
+          setProducts(products);
+
+          return;
+        }
+
+        const results =
+          await searchProducts(
+            keyword
+          );
+
+        setProducts(results);
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+  const handleCategoryFilter =
+    async (categoryId) => {
+
+      try {
+
+        if (
+          categoryId === "all"
+        ) {
+
+          const products =
+            await getAllProducts();
+
+          setProducts(products);
+
+          return;
+        }
+
+        const products =
+          await getProductsByCategory(
+            categoryId
+          );
+
+        setProducts(products);
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -64,16 +142,81 @@ const HomePage = () => {
           Our Coffee
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="flex gap-3 mb-6">
 
-          {products.map((product) => (
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={keyword}
+            onChange={(e) =>
+              setKeyword(
+                e.target.value
+              )
+            }
+            className="border p-2 rounded flex-1"
+          />
 
-            <ProductCard
-              key={product._id}
-              product={product}
-            />
+          <button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white px-4 rounded"
+          >
+            Search
+          </button>
 
-          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-8">
+
+          <button
+            onClick={() =>
+              handleCategoryFilter(
+                "all"
+              )
+            }
+            className="px-4 py-2 border rounded"
+          >
+            All
+          </button>
+
+          {categories.map(
+            (category) => (
+
+              <button
+                key={category._id}
+                onClick={() =>
+                  handleCategoryFilter(
+                    category._id
+                  )
+                }
+                className="px-4 py-2 border rounded"
+              >
+                {category.name}
+              </button>
+
+            )
+          )}
+
+        </div>
+
+        <div
+          className="
+          grid
+          grid-cols-1
+          md:grid-cols-3
+          gap-6
+        "
+        >
+
+          {products.map(
+            (product) => (
+
+              <ProductCard
+                key={product._id}
+                product={product}
+              />
+
+            )
+          )}
 
         </div>
 

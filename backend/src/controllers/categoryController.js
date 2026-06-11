@@ -1,10 +1,23 @@
-export const getAllCategories = async (req, res) => {
+import Category from "../models/Category.js";
+
+export const getAllCategories = async (
+  req,
+  res
+) => {
+
   try {
+
+    const categories =
+      await Category.find()
+        .sort({ name: 1 });
+
     res.status(200).json({
       success: true,
-      message: "All categories"
+      categories
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message

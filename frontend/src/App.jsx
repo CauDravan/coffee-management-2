@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
+import AdminProductsPage from "./pages/AdminProductsPage";
 
 function App() {
   return (
@@ -40,6 +41,11 @@ function App() {
         <Route
           path="/orders"
           element={<OrderHistoryPage />}
+        />
+
+        <Route
+          path="/admin/products"
+          element={<AdminProductsPage />}
         />
 
       </Routes>

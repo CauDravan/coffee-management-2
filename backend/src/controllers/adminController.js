@@ -1,112 +1,319 @@
-export const createProduct = async (req, res) => {
+import Product from "../models/Product.js";
+import Category from "../models/Category.js";
+import Order from "../models/Order.js";
+import User from "../models/User.js";
+
+/* =========================
+   PRODUCT MANAGEMENT
+========================= */
+
+export const createProduct = async (
+  req,
+  res
+) => {
+
   try {
+
+    const product =
+      await Product.create(req.body);
+
     res.status(201).json({
       success: true,
-      message: "Product created"
+      product
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (
+  req,
+  res
+) => {
+
   try {
+
+    const product =
+      await Product.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+          runValidators: true
+        }
+      );
+
+    if (!product) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Product not found"
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: "Product updated"
+      product
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const deleteProduct = async (req, res) => {
+export const deleteProduct = async (
+  req,
+  res
+) => {
+
   try {
+
+    const product =
+      await Product.findById(
+        req.params.id
+      );
+
+    if (!product) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Product not found"
+      });
+    }
+
+    await product.deleteOne();
+
     res.status(200).json({
       success: true,
       message: "Product deleted"
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const createCategory = async (req, res) => {
+/* =========================
+   CATEGORY MANAGEMENT
+========================= */
+
+export const createCategory = async (
+  req,
+  res
+) => {
+
   try {
+
+    const category =
+      await Category.create({
+        name: req.body.name,
+        description:
+          req.body.description || ""
+      });
+
     res.status(201).json({
       success: true,
-      message: "Category created"
+      category
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const getAllOrders = async (req, res) => {
+/* =========================
+   ORDER MANAGEMENT
+========================= */
+
+export const getAllOrders = async (
+  req,
+  res
+) => {
+
   try {
+
+    const orders =
+      await Order.find()
+        .populate(
+          "user",
+          "name email"
+        )
+        .sort({
+          createdAt: -1
+        });
+
     res.status(200).json({
       success: true,
-      message: "All orders"
+      count: orders.length,
+      orders
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const updateOrderStatus = async (req, res) => {
+export const updateOrderStatus =
+  async (req, res) => {
+
+    try {
+
+      const { status } = req.body;
+
+      const validStatuses = [
+        "Pending",
+        "Processing",
+        "Completed",
+        "Cancelled"
+      ];
+
+      if (
+        !validStatuses.includes(
+          status
+        )
+      ) {
+
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid order status"
+        });
+      }
+
+      const order =
+        await Order.findById(
+          req.params.id
+        );
+
+      if (!order) {
+
+        return res.status(404).json({
+          success: false,
+          message: "Order not found"
+        });
+      }
+
+      order.status = status;
+
+      await order.save();
+
+      res.status(200).json({
+        success: true,
+        order
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+
+    }
+  };
+
+/* =========================
+   USER MANAGEMENT
+========================= */
+
+export const getAllUsers = async (
+  req,
+  res
+) => {
+
   try {
+
+    const users =
+      await User.find()
+        .select("-password")
+        .sort({
+          createdAt: -1
+        });
+
     res.status(200).json({
       success: true,
-      message: "Order status updated"
+      count: users.length,
+      users
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
 
-export const getAllUsers = async (req, res) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: "All users"
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-};
+export const deleteUser = async (
+  req,
+  res
+) => {
 
-export const deleteUser = async (req, res) => {
   try {
+
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    if (user.role === "admin") {
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Cannot delete admin account"
+      });
+    }
+
+    await user.deleteOne();
+
     res.status(200).json({
       success: true,
       message: "User deleted"
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 };
-
