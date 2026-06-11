@@ -36,23 +36,37 @@ function App() {
         />
 
         <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
+
+        {/* User Routes */}
+
+        <Route
           path="/cart"
-          element={<CartPage />}
+          element={
+            <UserRoute>
+              <CartPage />
+            </UserRoute>
+          }
         />
 
         <Route
           path="/checkout"
-          element={<CheckoutPage />}
+          element={
+            <UserRoute>
+              <CheckoutPage />
+            </UserRoute>
+          }
         />
 
         <Route
           path="/orders"
-          element={<OrderHistoryPage />}
-        />
-
-        <Route
-          path="/register"
-          element={<RegisterPage />}
+          element={
+            <UserRoute>
+              <OrderHistoryPage />
+            </UserRoute>
+          }
         />
 
         {/* Admin Routes */}
