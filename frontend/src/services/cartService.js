@@ -62,3 +62,14 @@ export const removeFromCart = async (
 
   return response.data;
 };
+
+export const clearCart = async () => {
+
+  const response =
+    await axios.delete(
+      `${API_URL}/clear`,
+      getAuthConfig()
+    );
+
+  return response.data;
+};
