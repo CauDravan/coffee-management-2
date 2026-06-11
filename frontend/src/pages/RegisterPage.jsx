@@ -4,78 +4,53 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 
-import {
-  register
-} from "../services/authService";
+import { register } from "../services/authService";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
 
-  const [formData, setFormData] =
-    useState({
-      name: "",
-      email: "",
-      password: ""
-    });
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [error, setError] = useState("");
 
-  const [error, setError] =
-    useState("");
-
-  const handleChange = e => {
-
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]:
-        e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit =
-    async e => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      e.preventDefault();
+    setError("");
 
-      setError("");
+    try {
+      setLoading(true);
 
-      try {
+      await register(formData.name, formData.email, formData.password);
 
-        setLoading(true);
+      alert("Register successful");
 
-        await register(
-          formData.name,
-          formData.email,
-          formData.password
-        );
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
 
-        alert(
-          "Register successful"
-        );
-
-        navigate("/login");
-
-      } catch (error) {
-
-        console.error(error);
-
-        setError(
-          error.response?.data?.message ||
-          "Registration failed"
-        );
-
-      } finally {
-
-        setLoading(false);
-      }
-    };
+      setError(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
-
       <Navbar />
 
       <div
@@ -89,7 +64,6 @@ const RegisterPage = () => {
           shadow
         "
       >
-
         <h1
           className="
             text-3xl
@@ -102,7 +76,6 @@ const RegisterPage = () => {
         </h1>
 
         {error && (
-
           <div
             className="
               bg-red-100
@@ -114,16 +87,10 @@ const RegisterPage = () => {
           >
             {error}
           </div>
-
         )}
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-
             <label
               className="
                 block
@@ -146,11 +113,9 @@ const RegisterPage = () => {
                 p-2
               "
             />
-
           </div>
 
           <div>
-
             <label
               className="
                 block
@@ -173,11 +138,31 @@ const RegisterPage = () => {
                 p-2
               "
             />
-
           </div>
-
           <div>
+            <label
+              className="
+                block
+                mb-1
+            "
+            >
+              Phone
+            </label>
 
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="
+                w-full
+                border
+                rounded
+                p-2
+            "
+            />
+          </div>
+          <div>
             <label
               className="
                 block
@@ -200,7 +185,6 @@ const RegisterPage = () => {
                 p-2
               "
             />
-
           </div>
 
           <button
@@ -214,15 +198,10 @@ const RegisterPage = () => {
               rounded
             "
           >
-            {loading
-              ? "Registering..."
-              : "Register"}
+            {loading ? "Registering..." : "Register"}
           </button>
-
         </form>
-
       </div>
-
     </div>
   );
 };
