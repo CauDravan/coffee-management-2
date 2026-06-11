@@ -2,188 +2,150 @@ import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
 
-import {
-  getAllProducts
-} from "../services/productService";
+import { getAllProducts } from "../services/productService";
 
 import {
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } from "../services/adminService";
 
+const INPUT_STYLE = `
+  w-full
+  border
+  border-gray-300
+  rounded-xl
+  px-4
+  py-3
+  focus:outline-none
+  focus:ring-2
+  focus:ring-amber-300
+`;
+
 const AdminProductsPage = () => {
+  const [products, setProducts] = useState([]);
 
-  const [products, setProducts] =
-    useState([]);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    stock: "",
+    image: "",
+  });
 
-  const [formData, setFormData] =
-    useState({
-      name: "",
-      description: "",
-      price: "",
-      stock: "",
-      image: ""
-    });
+  const [editingId, setEditingId] = useState(null);
 
-  const [editingId, setEditingId] =
-    useState(null);
+  const fetchProducts = async () => {
+    try {
+      const data = await getAllProducts();
 
-  const fetchProducts =
-    async () => {
-
-      try {
-
-        const data =
-          await getAllProducts();
-
-        setProducts(data);
-
-      } catch (error) {
-
-        console.error(error);
-      }
-    };
+      setProducts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const handleChange = e => {
-
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]:
-        e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const resetForm = () => {
-
     setFormData({
       name: "",
       description: "",
       price: "",
       stock: "",
-      image: ""
+      image: "",
     });
 
     setEditingId(null);
   };
 
-  const handleSubmit =
-    async e => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      e.preventDefault();
+    try {
+      if (editingId) {
+        await updateProduct(editingId, formData);
 
-      try {
+        alert("Product updated");
+      } else {
+        await createProduct(formData);
 
-        if (editingId) {
-
-          await updateProduct(
-            editingId,
-            formData
-          );
-
-          alert(
-            "Product updated"
-          );
-
-        } else {
-
-          await createProduct(
-            formData
-          );
-
-          alert(
-            "Product created"
-          );
-        }
-
-        resetForm();
-
-        await fetchProducts();
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert(
-          error.response?.data?.message ||
-          "Operation failed"
-        );
+        alert("Product created");
       }
-    };
 
-  const handleEdit =
-    product => {
+      resetForm();
 
-      setEditingId(
-        product._id
-      );
+      await fetchProducts();
+    } catch (error) {
+      console.error(error);
 
-      setFormData({
-        name:
-          product.name || "",
-        description:
-          product.description || "",
-        price:
-          product.price || "",
-        stock:
-          product.stock || "",
-        image:
-          product.image || ""
-      });
-    };
+      alert(error.response?.data?.message || "Operation failed");
+    }
+  };
 
-  const handleDelete =
-    async productId => {
+  const handleEdit = (product) => {
+    setEditingId(product._id);
 
-      const confirmed =
-        window.confirm(
-          "Delete this product?"
-        );
+    setFormData({
+      name: product.name || "",
+      description: product.description || "",
+      price: product.price || "",
+      stock: product.stock || "",
+      image: product.image || "",
+    });
+  };
 
-      if (!confirmed) return;
+  const handleDelete = async (productId) => {
+    const confirmed = window.confirm("Delete this product?");
 
-      try {
+    if (!confirmed) return;
 
-        await deleteProduct(
-          productId
-        );
+    try {
+      await deleteProduct(productId);
 
-        await fetchProducts();
-
-      } catch (error) {
-
-        console.error(error);
-      }
-    };
+      await fetchProducts();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
-
       <Navbar />
 
       <div className="max-w-6xl mx-auto py-10">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold">Product Management</h1>
 
-        <h1 className="text-4xl font-bold mb-8">
-          Product Management
-        </h1>
+          <p className="text-gray-500">Manage your coffee products</p>
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="border p-6 rounded mb-10"
+          className="
+            bg-white
+            shadow-lg
+            rounded-3xl
+            p-8
+            mb-10
+          "
         >
-
-          <div className="grid grid-cols-2 gap-4">
-
+          <div className="grid md:grid-cols-2 gap-4">
             <input
               name="name"
               placeholder="Product Name"
               value={formData.name}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className={INPUT_STYLE}
               required
             />
 
@@ -193,7 +155,7 @@ const AdminProductsPage = () => {
               placeholder="Price"
               value={formData.price}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className={INPUT_STYLE}
               required
             />
 
@@ -203,7 +165,7 @@ const AdminProductsPage = () => {
               placeholder="Stock"
               value={formData.stock}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className={INPUT_STYLE}
               required
             />
 
@@ -212,9 +174,8 @@ const AdminProductsPage = () => {
               placeholder="Image URL"
               value={formData.image}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className={INPUT_STYLE}
             />
-
           </div>
 
           <textarea
@@ -222,18 +183,11 @@ const AdminProductsPage = () => {
             placeholder="Description"
             value={formData.description}
             onChange={handleChange}
-            className="
-              border
-              p-2
-              rounded
-              w-full
-              mt-4
-            "
+            className={`${INPUT_STYLE} mt-4`}
             rows="4"
           />
 
           <div className="mt-4 flex gap-3">
-
             <button
               type="submit"
               className="
@@ -244,13 +198,10 @@ const AdminProductsPage = () => {
                 rounded
               "
             >
-              {editingId
-                ? "Update Product"
-                : "Create Product"}
+              {editingId ? "Update Product" : "Create Product"}
             </button>
 
             {editingId && (
-
               <button
                 type="button"
                 onClick={resetForm}
@@ -264,58 +215,50 @@ const AdminProductsPage = () => {
               >
                 Cancel
               </button>
-
             )}
-
           </div>
-
         </form>
 
         <div className="space-y-4">
-
-          {products.map(product => (
-
+          {products.map((product) => (
             <div
               key={product._id}
               className="
-                border
-                rounded
-                p-4
+                bg-white
+                rounded-2xl
+                shadow-md
+                p-5
                 flex
                 justify-between
+                items-center
               "
             >
+              <div className="flex gap-4 items-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="
+      w-20
+      h-20
+      rounded-xl
+      object-cover
+    "
+                />
 
-              <div>
+                <div>
+                  <h2 className="font-bold text-lg">{product.name}</h2>
 
-                <h2 className="font-bold">
-                  {product.name}
-                </h2>
+                  <p className="text-gray-500">{product.description}</p>
 
-                <p>
-                  Price:
-                  {" "}
-                  {product.price
-                    .toLocaleString()}
-                  đ
-                </p>
-
-                <p>
-                  Stock:
-                  {" "}
-                  {product.stock}
-                </p>
-
+                  <p className="font-semibold mt-2">
+                    {product.price.toLocaleString()} đ
+                  </p>
+                </div>
               </div>
 
               <div className="flex gap-2">
-
                 <button
-                  onClick={() =>
-                    handleEdit(
-                      product
-                    )
-                  }
+                  onClick={() => handleEdit(product)}
                   className="
                     bg-blue-600
                     text-white
@@ -328,11 +271,7 @@ const AdminProductsPage = () => {
                 </button>
 
                 <button
-                  onClick={() =>
-                    handleDelete(
-                      product._id
-                    )
-                  }
+                  onClick={() => handleDelete(product._id)}
                   className="
                     bg-red-600
                     text-white
@@ -343,17 +282,11 @@ const AdminProductsPage = () => {
                 >
                   Delete
                 </button>
-
               </div>
-
             </div>
-
           ))}
-
         </div>
-
       </div>
-
     </div>
   );
 };
