@@ -28,4 +28,7 @@ router.get('/users', protect, admin, adminController.getAllUsers);
 
 router.delete('/users/:id', protect, admin, adminController.deleteUser);
 
+/// Admin Dashboard
+router.get('/dashboard', protect, admin, adminController.getDashboardStats);
+
 export default router;

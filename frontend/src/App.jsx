@@ -9,6 +9,7 @@ import OrderHistoryPage from "./pages/OrderHistoryPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import RegisterPage from "./pages/RegisterPage";
+import StatisticsPage from "./pages/StatisticsPage";
 
 function App() {
   return (
@@ -62,6 +63,11 @@ function App() {
         <Route
           path="/admin/orders"
           element={<AdminOrdersPage />}
+        />
+
+        <Route
+          path="/admin/statistics"
+          element={<StatisticsPage />}
         />
 
       </Routes>

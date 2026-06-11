@@ -348,3 +348,73 @@ export const deleteUser = async (
 
   }
 };
+
+/* =========================
+   DASHBOARD STATS
+========================= */
+
+export const getDashboardStats =
+  async (req, res) => {
+
+    try {
+
+      const totalUsers =
+        await User.countDocuments();
+
+      const totalProducts =
+        await Product.countDocuments();
+
+      const totalOrders =
+        await Order.countDocuments();
+
+      const revenueResult =
+        await Order.aggregate([
+          {
+            $match: {
+              status: "Completed"
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalRevenue: {
+                $sum: "$totalPrice"
+              }
+            }
+          }
+        ]);
+
+      const totalRevenue =
+        revenueResult[0]
+          ?.totalRevenue || 0;
+
+      const pendingOrders =
+        await Order.countDocuments({
+          status: "Pending"
+        });
+
+      const completedOrders =
+        await Order.countDocuments({
+          status: "Completed"
+        });
+
+      res.status(200).json({
+        success: true,
+        stats: {
+          totalUsers,
+          totalProducts,
+          totalOrders,
+          totalRevenue,
+          pendingOrders,
+          completedOrders
+        }
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+  };
