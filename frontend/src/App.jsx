@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 function App() {
   return (
@@ -28,6 +30,16 @@ function App() {
         <Route
           path="/cart"
           element={<CartPage />}
+        />
+
+        <Route
+          path="/checkout"
+          element={<CheckoutPage />}
+        />
+
+        <Route
+          path="/orders"
+          element={<OrderHistoryPage />}
         />
 
       </Routes>

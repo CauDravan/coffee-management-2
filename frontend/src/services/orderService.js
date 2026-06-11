@@ -35,3 +35,16 @@ export const getMyOrders =
 
     return response.data.orders;
 };
+
+export const getOrderById = async (
+  orderId
+) => {
+
+  const response =
+    await axios.get(
+      `${API_URL}/${orderId}`,
+      getAuthConfig()
+    );
+
+  return response.data.order;
+};
