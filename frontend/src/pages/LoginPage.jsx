@@ -30,6 +30,12 @@ const LoginPage = () => {
         "token",
         data.token
       );
+      
+      // Store user info for later use
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
 
       navigate("/");
 

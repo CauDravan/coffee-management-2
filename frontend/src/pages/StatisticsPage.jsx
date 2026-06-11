@@ -67,42 +67,42 @@ const StatisticsPage = () => {
           <div className="border p-6 rounded">
             <h2>Total Users</h2>
             <p className="text-3xl font-bold">
-              {stats.totalUsers}
+              {stats?.totalUsers || 0}
             </p>
           </div>
 
           <div className="border p-6 rounded">
             <h2>Total Products</h2>
             <p className="text-3xl font-bold">
-              {stats.totalProducts}
+              {stats?.totalProducts || 0}
             </p>
           </div>
 
           <div className="border p-6 rounded">
             <h2>Total Orders</h2>
             <p className="text-3xl font-bold">
-              {stats.totalOrders}
+              {stats?.totalOrders || 0}
             </p>
           </div>
 
           <div className="border p-6 rounded">
             <h2>Revenue</h2>
             <p className="text-3xl font-bold">
-              {stats.totalRevenue.toLocaleString()} đ
+              {stats?.totalRevenue?.toLocaleString() || 0} đ
             </p>
           </div>
 
           <div className="border p-6 rounded">
             <h2>Pending Orders</h2>
             <p className="text-3xl font-bold">
-              {stats.pendingOrders}
+              {stats?.pendingOrders || 0}
             </p>
           </div>
 
           <div className="border p-6 rounded">
             <h2>Completed Orders</h2>
             <p className="text-3xl font-bold">
-              {stats.completedOrders}
+              {stats?.completedOrders || 0}
             </p>
           </div>
 

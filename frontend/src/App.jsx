@@ -11,6 +11,8 @@ import AdminOrdersPage from "./pages/AdminOrdersPage";
 import RegisterPage from "./pages/RegisterPage";
 import StatisticsPage from "./pages/StatisticsPage";
 
+import AdminRoute from "./components/AdminRoute";
+
 function App() {
   return (
     <BrowserRouter>
@@ -57,17 +59,29 @@ function App() {
 
         <Route
           path="/admin/products"
-          element={<AdminProductsPage />}
+          element={
+            <AdminRoute>
+              <AdminProductsPage />
+            </AdminRoute>
+          }
         />
 
         <Route
           path="/admin/orders"
-          element={<AdminOrdersPage />}
+          element={
+            <AdminRoute>
+              <AdminOrdersPage />
+            </AdminRoute>
+          }
         />
 
         <Route
           path="/admin/statistics"
-          element={<StatisticsPage />}
+          element={
+            <AdminRoute>
+              <StatisticsPage />
+            </AdminRoute>
+          }
         />
 
       </Routes>
