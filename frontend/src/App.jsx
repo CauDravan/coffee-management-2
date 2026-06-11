@@ -7,8 +7,8 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
-import RegisterPage from "./pages/RegisterPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
