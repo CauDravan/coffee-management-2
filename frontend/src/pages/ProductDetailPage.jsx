@@ -7,67 +7,43 @@ import { getProductById } from "../services/productService";
 import { addToCart } from "../services/cartService";
 
 const ProductDetailPage = () => {
-
   const { id } = useParams();
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const [product, setProduct] =
-    useState(null);
+  const [product, setProduct] = useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
   const handleAddToCart = async () => {
-
     try {
+      await addToCart(product._id, 1);
 
-      await addToCart(
-        product._id,
-        1
-      );
-
-      alert(
-        "Added to cart successfully"
-      );
-
+      alert("Added to cart successfully");
     } catch (error) {
-
       console.log(error);
 
       console.log(error.response);
 
       alert(
-        error.response?.data?.message ||
-        error.message ||
-        "Add to cart failed"
+        error.response?.data?.message || error.message || "Add to cart failed",
       );
-
     }
   };
 
   useEffect(() => {
-
     const fetchProduct = async () => {
-
       try {
-
-        const data =
-          await getProductById(id);
+        const data = await getProductById(id);
 
         setProduct(data);
-
       } catch (error) {
-
         console.error(error);
-
       } finally {
-
         setLoading(false);
-
       }
     };
 
     fetchProduct();
-
   }, [id]);
 
   if (loading) {
@@ -80,45 +56,130 @@ const ProductDetailPage = () => {
 
   return (
     <div>
-
       <Navbar />
 
-      <div className="max-w-5xl mx-auto py-10">
-
-        <img
-          src={
-            product.image ||
-            "https://images.unsplash.com/photo-1517701604599-bb29b565090c"
-          }
-          alt={product.name}
-          className="w-full max-w-md rounded"
-        />
-
-        <h1 className="text-4xl font-bold mt-6">
-          {product.name}
-        </h1>
-
-        <p className="text-gray-500 mt-2">
-          {product.description}
-        </p>
-
-        <p className="text-2xl font-semibold mt-4">
-          {product.price.toLocaleString()} đ
-        </p>
-
-        <p className="mt-2">
-          Stock: {product.stock}
-        </p>
-
-        <button
-          onClick={handleAddToCart}
-          className="mt-5 bg-amber-900 text-white px-5 py-3 rounded"
+      <div
+        className="
+    max-w-6xl
+    mx-auto
+    px-4
+    py-12
+  "
+      >
+        <div
+          className="
+      bg-white
+      rounded-3xl
+      shadow-lg
+      p-8
+      grid
+      md:grid-cols-2
+      gap-10
+    "
         >
-          Add To Cart
-        </button>
+          {/* Product Image */}
 
+          <div>
+            <img
+              src={
+                product.image ||
+                "https://images.unsplash.com/photo-1517701604599-bb29b565090c"
+              }
+              alt={product.name}
+              className="
+          w-full
+          h-[450px]
+          object-cover
+          rounded-2xl
+        "
+            />
+          </div>
+
+          {/* Product Info */}
+
+          <div
+            className="
+        flex
+        flex-col
+        justify-center
+      "
+          >
+            <h1
+              className="
+          text-5xl
+          font-bold
+          text-gray-800
+          mb-4
+        "
+            >
+              {product.name}
+            </h1>
+
+            <p
+              className="
+          text-3xl
+          font-bold
+          text-amber-900
+          mb-6
+        "
+            >
+              {product.price.toLocaleString()} đ
+            </p>
+
+            <p
+              className="
+          text-gray-600
+          leading-relaxed
+          mb-6
+        "
+            >
+              {product.description}
+            </p>
+
+            <div
+              className="
+          bg-gray-100
+          rounded-xl
+          p-4
+          mb-6
+        "
+            >
+              <span
+                className={
+                  product.stock > 0
+                    ? "text-green-600 font-semibold"
+                    : "text-red-600 font-semibold"
+                }
+              >
+                {product.stock > 0 ? "In Stock" : "Out of Stock"}
+              </span>
+            </div>
+
+            {user?.role !== "admin" && (
+              <button
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+                className={`
+      py-4
+      rounded-xl
+      text-lg
+      font-semibold
+      text-white
+      transition
+
+      ${
+        product.stock === 0
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-amber-900 hover:bg-amber-800"
+      }
+    `}
+              >
+                {product.stock === 0 ? "Out Of Stock" : "Add To Cart"}
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-
     </div>
   );
 };
