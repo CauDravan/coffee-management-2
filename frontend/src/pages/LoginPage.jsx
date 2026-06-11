@@ -37,7 +37,7 @@ const LoginPage = () => {
         JSON.stringify(data.user)
       );
 
-      navigate("/");
+      window.location.href = "/";
 
     } catch (error) {
 
