@@ -7,6 +7,8 @@ import { admin } from '../middleware/adminMiddleware.js';
 const router = express.Router();
 
 /// Product Management
+router.get('/products', protect, admin, adminController.getAllProductsAdmin);
+
 router.post('/products', protect, admin, adminController.createProduct);
 
 router.put('/products/:id', protect, admin, adminController.updateProduct);

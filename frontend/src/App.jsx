@@ -7,11 +7,15 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* Public Routes */}
 
         <Route
           path="/"
@@ -44,8 +48,20 @@ function App() {
         />
 
         <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
+
+        {/* Admin Routes */}
+
+        <Route
           path="/admin/products"
           element={<AdminProductsPage />}
+        />
+
+        <Route
+          path="/admin/orders"
+          element={<AdminOrdersPage />}
         />
 
       </Routes>
