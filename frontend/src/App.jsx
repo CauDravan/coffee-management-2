@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import StatisticsPage from "./pages/StatisticsPage";
 
 import AdminRoute from "./components/AdminRoute";
+import UserRoute from "./components/UserRoute";
 
 function App() {
   return (
