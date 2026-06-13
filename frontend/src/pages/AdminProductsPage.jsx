@@ -32,6 +32,7 @@ const AdminProductsPage = () => {
     price: "",
     stock: "",
     image: "",
+    category: "6a0312ea1203deeb34624fe3",
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -64,6 +65,7 @@ const AdminProductsPage = () => {
       price: "",
       stock: "",
       image: "",
+      category: "6a0312ea1203deeb34624fe3",
     });
 
     setEditingId(null);
@@ -89,7 +91,9 @@ const AdminProductsPage = () => {
     } catch (error) {
       console.error(error);
 
-      toast.error("Failed to create product");
+      toast.error(
+        error.response?.data?.message || "Failed to create product"
+      );
     }
   };
 
@@ -102,6 +106,8 @@ const AdminProductsPage = () => {
       price: product.price || "",
       stock: product.stock || "",
       image: product.image || "",
+
+      category: product.category || "6a0312ea1203deeb34624fe3",
     });
   };
 
@@ -174,6 +180,14 @@ const AdminProductsPage = () => {
               name="image"
               placeholder="Image URL"
               value={formData.image}
+              onChange={handleChange}
+              className={INPUT_STYLE}
+            />
+
+            <input
+              name="category"
+              placeholder="Category"
+              value={formData.category}
               onChange={handleChange}
               className={INPUT_STYLE}
             />
