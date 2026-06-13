@@ -30,14 +30,15 @@ const CheckoutPage = () => {
         shippingAddress: formData,
       });
 
-      toast.success("Order created successfully");
-
-      navigate("/orders");
+      toast.success("Order placed successfully");
 
     } catch (error) {
       console.error(error);
 
-      toast.error("Failed to create order");
+      toast.error(
+        error.response?.data?.message || 
+        "Failed to create order"
+      );
     }
   };
 
