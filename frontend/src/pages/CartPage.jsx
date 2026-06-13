@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
@@ -40,7 +41,7 @@ const CartPage = () => {
       await fetchCart();
     } catch (error) {
       console.error(error);
-      alert("Update failed");
+      toast.error("Failed to update cart item");
     }
   };
 
@@ -51,7 +52,7 @@ const CartPage = () => {
       await fetchCart();
     } catch (error) {
       console.error(error);
-      alert("Remove failed");
+      toast.error("Failed to remove item from cart");
     }
   };
 

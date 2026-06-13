@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
@@ -52,7 +53,7 @@ const AdminOrdersPage = () => {
     } catch (error) {
       console.error(error);
 
-      alert(error.response?.data?.message || "Update failed");
+      toast.error("Failed to update order status");
     }
   };
 

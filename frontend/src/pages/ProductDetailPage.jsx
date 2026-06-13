@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
@@ -18,13 +19,13 @@ const ProductDetailPage = () => {
     try {
       await addToCart(product._id, 1);
 
-      alert("Added to cart successfully");
+      toast.success("Added to cart successfully");
     } catch (error) {
       console.log(error);
 
       console.log(error.response);
 
-      alert(
+      toast.error(
         error.response?.data?.message || error.message || "Add to cart failed",
       );
     }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
@@ -37,7 +38,7 @@ const RegisterPage = () => {
 
       await register(formData.name, formData.email, formData.password, formData.phone);
 
-      alert("Register successful");
+      toast.success("Register successful");
 
       navigate("/login");
     } catch (error) {

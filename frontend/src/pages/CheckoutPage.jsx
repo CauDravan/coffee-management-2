@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 import { createOrder } from "../services/orderService";
@@ -29,13 +30,13 @@ const CheckoutPage = () => {
         shippingAddress: formData,
       });
 
-      alert("Order created successfully");
+      toast.success("Order created successfully");
 
       navigate("/orders");
     } catch (error) {
       console.error(error);
 
-      alert(error.response?.data?.message || "Create order failed");
+      toast.error("Failed to create order");
     }
   };
 

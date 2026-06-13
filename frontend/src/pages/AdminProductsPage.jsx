@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
@@ -75,11 +76,11 @@ const AdminProductsPage = () => {
       if (editingId) {
         await updateProduct(editingId, formData);
 
-        alert("Product updated");
+        toast.success("Product updated");
       } else {
         await createProduct(formData);
 
-        alert("Product created");
+        toast.success("Product created");
       }
 
       resetForm();
@@ -88,7 +89,7 @@ const AdminProductsPage = () => {
     } catch (error) {
       console.error(error);
 
-      alert(error.response?.data?.message || "Operation failed");
+      toast.error("Failed to create product");
     }
   };
 
