@@ -38,7 +38,9 @@ const LoginPage = () => {
         JSON.stringify(data.user)
       );
 
-      window.location.href = "/";
+      toast.success("Login successful");
+
+      navigate("/");
 
     } catch (error) {
 

@@ -49,6 +49,8 @@ const CartPage = () => {
     try {
       await removeFromCart(productId);
 
+      toast.success("Item removed from cart");
+
       await fetchCart();
     } catch (error) {
       console.error(error);

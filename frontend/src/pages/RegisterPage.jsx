@@ -44,7 +44,10 @@ const RegisterPage = () => {
     } catch (error) {
       console.error(error);
 
-      setError(error.response?.data?.message || "Registration failed");
+      setError(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
     } finally {
       setLoading(false);
     }

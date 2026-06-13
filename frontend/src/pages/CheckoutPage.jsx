@@ -33,6 +33,7 @@ const CheckoutPage = () => {
       toast.success("Order created successfully");
 
       navigate("/orders");
+
     } catch (error) {
       console.error(error);
 
