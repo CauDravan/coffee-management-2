@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 

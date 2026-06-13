@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 
