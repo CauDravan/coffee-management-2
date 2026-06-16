@@ -17,6 +17,9 @@ export const createOrder = async (
   let totalPrice = 0;
 
   for (const item of cart.items) {
+    if (!item.product) {
+      throw new Error("Product not found");
+    }
 
     if (item.product.stock < item.quantity) {
       throw new Error(
