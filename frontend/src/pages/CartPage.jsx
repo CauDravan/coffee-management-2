@@ -103,9 +103,11 @@ const CartPage = () => {
           <p className="text-gray-500">Review your selected items</p>
         </div>
 
-        {cart.items.map((item) => (
+        {cart.items
+          .filter((item) => item.product)
+          .map((item) => (
           <div
-            key={item.product._id}
+            key={item.product?._id}
             className="
   bg-white
   rounded-2xl
@@ -118,10 +120,10 @@ const CartPage = () => {
               <div className="flex gap-4">
                 <img
                   src={
-                    item.product.image ||
+                    item.product?.image ||
                     "https://images.unsplash.com/photo-1517701604599-bb29b565090c"
                   }
-                  alt={item.product.name}
+                  alt={item.product?.name}
                   className="
       w-24
       h-24
@@ -131,7 +133,7 @@ const CartPage = () => {
                 />
 
                 <div>
-                  <h2 className="text-xl font-bold">{item.product.name}</h2>
+                  <h2 className="text-xl font-bold">{item.product?.name}</h2>
 
                   <p className="text-gray-500">
                     {item.price.toLocaleString()} đ
