@@ -324,6 +324,16 @@ export const deleteUser = async (
     }
 
     if (user.role === "admin") {
+      if (
+        user._id.toString() ===
+        req.user._id.toString()
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Cannot delete your own account"
+        });
+      }
 
       return res.status(400).json({
         success: false,
@@ -358,13 +368,26 @@ export const updateUserRole = async (
 
     const { role } = req.body;
 
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
     if (
-      userId === req.user._id.toString() ===
+      user._id.toString() ===
       req.user._id.toString()
     ) {
       return res.status(400).json({
         success: false,
-        message: "Cannot change own role"
+        message:
+          "Cannot change your own role"
       });
     }
 
@@ -375,18 +398,6 @@ export const updateUserRole = async (
       return res.status(400).json({
         success: false,
         message: "Invalid role"
-      });
-    }
-
-    const user =
-      await User.findById(
-        req.params.id
-      );
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
       });
     }
 
