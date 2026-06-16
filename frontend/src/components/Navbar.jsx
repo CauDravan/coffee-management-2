@@ -79,6 +79,10 @@ const Navbar = () => {
               <Link to="/admin/statistics" className="hover:text-amber-200">
                 Statistics
               </Link>
+
+              <Link to="/admin/users" className="hover:text-amber-200">
+                Users
+              </Link>
             </>
           )}
 

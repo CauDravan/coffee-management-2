@@ -11,6 +11,7 @@ import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import RegisterPage from "./pages/RegisterPage";
 import StatisticsPage from "./pages/StatisticsPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 
 import AdminRoute from "./components/AdminRoute";
 import UserRoute from "./components/UserRoute";
@@ -96,6 +97,15 @@ function App() {
           element={
             <AdminRoute>
               <StatisticsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminUsersPage />
             </AdminRoute>
           }
         />

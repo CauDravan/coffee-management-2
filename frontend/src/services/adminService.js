@@ -58,3 +58,36 @@ export const getDashboardStats = async () => {
 
   return response.data.stats;
 };
+
+export const getAllUsers = async () => {
+  const response = await axios.get(
+    `${API_URL}/users`,
+    getAuthConfig()
+  );
+
+  return response.data.users;
+};
+
+export const deleteUser = async (userId) => {
+  const response = await axios.delete(
+    `${API_URL}/users/${userId}`,
+    getAuthConfig()
+  );
+
+  return response.data;
+};
+
+export const updateUserRole = async (
+  userId,
+  role
+) => {
+
+  const response =
+    await axios.put(
+      `${API_URL}/users/${userId}/role`,
+      { role },
+      getAuthConfig()
+    );
+
+  return response.data;
+};

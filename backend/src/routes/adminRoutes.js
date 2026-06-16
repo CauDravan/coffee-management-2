@@ -28,6 +28,8 @@ router.get('/users', protect, admin, adminController.getAllUsers);
 
 router.delete('/users/:id', protect, admin, adminController.deleteUser);
 
+router.put('/users/:id/role', protect, admin, adminController.updateUserRole);
+
 /// Admin Dashboard
 router.get('/dashboard', protect, admin, adminController.getDashboardStats);
 
